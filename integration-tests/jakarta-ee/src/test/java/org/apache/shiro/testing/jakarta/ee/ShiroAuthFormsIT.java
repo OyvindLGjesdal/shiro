@@ -21,7 +21,11 @@ import static org.apache.shiro.testing.jakarta.ee.Deployments.standardActions;
 import static org.apache.shiro.testing.jakarta.ee.Deployments.isClientStateSavingIntegrationTest;
 import static org.apache.shiro.testing.jakarta.ee.Deployments.isShiroNativeSessionsIntegrationTest;
 
+import java.io.InputStream;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -200,6 +204,8 @@ public class ShiroAuthFormsIT {
     void unauthorized() {
         webDriver.get(baseURL + "shiro/adminpage");
         login();
+
+
         assertEquals("Unauthorized", webDriver.getTitle());
         guardHttp(logout).click();
         assertEquals(baseURL + "index", webDriver.getCurrentUrl());

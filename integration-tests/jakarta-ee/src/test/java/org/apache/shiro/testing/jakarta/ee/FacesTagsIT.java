@@ -224,7 +224,7 @@ public class FacesTagsIT {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.statusCode());
-            assertTrue(response.statusCode() == -1,response.body() + " " + response.statusCode());
+            assertTrue(response.statusCode() == -1, response.body() + " " + response.statusCode());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error occurred while sending HTTP request", e);
         }
