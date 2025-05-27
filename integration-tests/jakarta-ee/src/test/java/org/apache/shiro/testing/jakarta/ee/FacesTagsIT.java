@@ -46,8 +46,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import javax.validation.constraints.AssertTrue;
-
 @ExtendWith(ArquillianExtension.class)
 @Tag("UserInterface")
 public class FacesTagsIT {
@@ -226,7 +224,7 @@ public class FacesTagsIT {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.statusCode());
-            assertTrue(response.statusCode()!= -1);
+            assertTrue(response.statusCode() != -1);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error occurred while sending HTTP request", e);
         }
