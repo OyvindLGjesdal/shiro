@@ -13,7 +13,14 @@
  */
 package org.apache.shiro.testing.jakarta.ee;
 
+import java.io.IOException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 import static org.apache.shiro.testing.jakarta.ee.ShiroAuthFormsIT.DEPLOYMENT_DEV_MODE;
 import static org.apache.shiro.testing.jakarta.ee.ShiroAuthFormsIT.createDeploymentDev;
@@ -199,6 +206,28 @@ public class FacesTagsIT {
         login();
         webDriver.get(baseURL + "shiro/unprotected/tags");
         assertEquals("Has Some Permission", hasAnyPermission.getText());
+    }
+    @Test
+    @OperateOnDeployment(DEPLOYMENT_DEV_MODE)
+    void hasHttpClient() {
+
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("webuser", "webpwd".toCharArray());
+            }
+        };
+
+        HttpClient httpClient = HttpClient.newBuilder().authenticator(authenticator).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURL + "shiro/unprotected/tags")).build();
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.statusCode());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("Error occurred while sending HTTP request", e);
+        }
+
+
     }
 
     @Test
