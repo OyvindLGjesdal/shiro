@@ -36,6 +36,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -44,6 +45,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import javax.validation.constraints.AssertTrue;
 
 @ExtendWith(ArquillianExtension.class)
 @Tag("UserInterface")
@@ -223,6 +226,7 @@ public class FacesTagsIT {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.statusCode());
+            assertTrue(response.statusCode()!= -1);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error occurred while sending HTTP request", e);
         }
